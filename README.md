@@ -12,7 +12,11 @@ Ce projet implémente une infrastructure de **collecte, transformation et analys
 ### Flux de Données Global
 L'architecture complète, des sources opérationnelles aux tableaux de bord Power BI.
 
-![Architecture Globale BI](https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png){:width="600px"}
+
+<!-- Architecture globale -->
+<img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" 
+     alt="Architecture Globale BI" 
+     style="height: 400px; width: auto;" />
 
 | Composant | Rôle dans la Stack Microsoft | Outils & Technologies |
 |-----------|-----------------------------|------------------------|
