@@ -12,12 +12,12 @@ Ce projet implémente une infrastructure de **collecte, transformation et analys
 ### Flux de Données Global
 L'architecture complète, des sources opérationnelles aux tableaux de bord Power BI.
 
-
 <!-- Architecture globale -->
+<div align="center">
 <img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" 
      alt="Architecture Globale BI" 
-     style="height: 500px; width: 700px;" />
-
+     style="height: 500px; width: 800px;" />
+</div>
 | Composant | Rôle dans la Stack Microsoft | Outils & Technologies |
 |-----------|-----------------------------|------------------------|
 | **Sources de Données** | Fournit les données brutes des systèmes opérationnels. | **SQL Server** (bases transactionnelles), **Fichiers CSV** |
@@ -28,11 +28,13 @@ L'architecture complète, des sources opérationnelles aux tableaux de bord Powe
 ### Pipeline ETL Détaillé
 Le schéma technique détaillant les étapes de transformation des données.
 
+
 <!-- Schéma ETL -->
+<div align="center">
 <img src="https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png" 
      alt="Schéma Technique ETL" 
-     style="height: 500px; width: 700px;" />
-
+     style="height: 500px; width: 800px;" />
+</div>
 ## 🔄 Processus ETL avec SSIS, SSAS & Power BI
 
 ### 1️⃣ **Extraction (Collecte)**
