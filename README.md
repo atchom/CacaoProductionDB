@@ -1,20 +1,16 @@
 # CacaoProductionDB
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architecture ETL - Production de Cacao</title>
-<div align="left">
-  <img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" alt="Bannière du projet" width="500" heigt="500" />
-</div>
-<h2>Schema ETL de la production de Cacao</h2>
- <img src="https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png" alt="Bannière du projet" width="500" heigt="500" />
-
-<style>
+    <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
@@ -29,6 +25,7 @@
             border-bottom: 3px solid #8B4513;
             padding-bottom: 15px;
             margin-bottom: 25px;
+            text-align: center;
         }
         h1 {
             color: #5D4037;
@@ -39,6 +36,26 @@
             color: #8B4513;
             font-style: italic;
             margin-bottom: 5px;
+        }
+        .architecture-image {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f5f0;
+            border-radius: 8px;
+            border: 1px solid #e0d6c9;
+        }
+        .architecture-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .image-caption {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
         }
         .etl-section {
             margin-bottom: 25px;
@@ -81,7 +98,8 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 25px;
+            justify-content: center;
         }
         .keyword {
             background-color: #8B4513;
@@ -89,6 +107,10 @@
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 14px;
+            transition: transform 0.2s;
+        }
+        .keyword:hover {
+            transform: translateY(-2px);
         }
         .footer {
             margin-top: 30px;
@@ -97,6 +119,11 @@
             color: #777;
             border-top: 1px solid #eee;
             padding-top: 15px;
+        }
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8B4513, transparent);
+            margin: 30px 0;
         }
     </style>
 </head>
@@ -107,9 +134,19 @@
             <p class="subtitle">Schéma d'intégration et de valorisation des données opérationnelles</p>
         </div>
 
-        <div class="highlight">
-            Le schéma ETL de cette entreprise de production de cacao illustre une architecture moderne et structurée pour la gestion des données opérationnelles et stratégiques. Il met en avant l'intégration de sources de données variées, telles que les bases SQL Server et les fichiers CSV, permettant de centraliser l'ensemble des informations relatives à la chaîne de production, de la plantation à la vente.
+        <div class="architecture-image">
+            <img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" 
+                 alt="Architecture ETL du projet Cacao Production" 
+                 width="800"
+                 height="auto">
+            <p class="image-caption">Figure 1 : Architecture complète ETL et BI pour la production de cacao</p>
         </div>
+
+        <div class="highlight">
+            <strong>Vue d'ensemble :</strong> Le schéma ETL de cette entreprise de production de cacao illustre une architecture moderne et structurée pour la gestion des données opérationnelles et stratégiques. Il met en avant l'intégration de sources de données variées, telles que les bases SQL Server et les fichiers CSV, permettant de centraliser l'ensemble des informations relatives à la chaîne de production, de la plantation à la vente.
+        </div>
+
+        <div class="section-divider"></div>
 
         <div class="etl-section extraction">
             <h2>📥 Extraction</h2>
@@ -118,6 +155,7 @@
                 <li>La fraîcheur des informations</li>
                 <li>La diversité des sources</li>
                 <li>L'exhaustivité des données collectées</li>
+                <li>L'intégration des sources multiples (SQL Server, CSV, logs de production)</li>
             </ul>
         </div>
 
@@ -169,9 +207,13 @@
             <span class="keyword">Cacao</span>
             <span class="keyword">Production</span>
             <span class="keyword">Data Quality</span>
+            <span class="keyword">Dashboard</span>
+            <span class="keyword">Data Pipeline</span>
         </div>
 
         <div class="footer">
             Architecture ETL | Production de Cacao | Présentation Professionnelle
         </div>
     </div>
+</body>
+</html>
