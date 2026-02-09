@@ -1,62 +1,64 @@
 # CacaoProductionDB
 
-# 🍫 CacaoProductionDB | Architecture de Gestion des Données
+# 🍫 CacaoProductionDB | Architecture de Gestion des Données Microsoft
 
 ## 📊 Vue d'Ensemble
-Ce projet implémente une infrastructure complète de **collecte, transformation et analyse** des données pour une entreprise de production de cacao. L'architecture repose sur un pipeline **ETL (Extract, Transform, Load)** robuste qui transforme des données opérationnelles disparates en insights stratégiques via un entrepôt de données et des tableaux de bord BI.
+Ce projet implémente une infrastructure de **collecte, transformation et analyse** des données pour une entreprise de production de cacao. L'architecture repose sur un pipeline **ETL** utilisant la stack **Microsoft SQL Server (SSIS, SSAS)** et **Power BI** pour transformer des données opérationnelles en insights stratégiques.
 
 ---
 
-## 🏗️ Architecture du Système
+## 🏗️ Architecture du Système Microsoft
 
 ### Flux de Données Global
-Le flux complet, des sources opérationnelles aux tableaux de bord décisionnels.
+L'architecture complète, des sources opérationnelles aux tableaux de bord Power BI.
 
 ![Architecture Globale BI](https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png)
 
-| Composant | Rôle | Technologies Exemple |
-|-----------|------|----------------------|
-| **Sources de Données** | Collecte des données brutes (SQL Server, CSV) | SQL Server, fichiers plats |
-| **Pipeline ETL** | Nettoyage, transformation et structuration | Apache Airflow, Python (Pandas), Talend |
-| **Entrepôt de Données** | Stockage structuré pour l'analyse | PostgreSQL, Google BigQuery |
-| **Couche Analytique** | Visualisation et reporting | Power BI, Tableau, Metabase |
+| Composant | Rôle dans la Stack Microsoft | Outils & Technologies |
+|-----------|-----------------------------|------------------------|
+| **Sources de Données** | Fournit les données brutes des systèmes opérationnels. | **SQL Server** (bases transactionnelles), **Fichiers CSV** |
+| **Pipeline ETL** | Orquestre le nettoyage, la transformation et le chargement des données. | **SQL Server Integration Services (SSIS)** |
+| **Entrepôt & Modèle Analytique** | Stocke et structure les données pour une analyse optimale. | **SQL Server** (Entrepôt), **SQL Server Analysis Services (SSAS)** |
+| **Couche de Visualisation** | Crée les rapports interactifs et les tableaux de bord métier. | **Power BI** (Desktop & Service) |
 
 ### Pipeline ETL Détaillé
-Schéma technique du processus de transformation des données.
+Le schéma technique détaillant les étapes de transformation des données.
 
 ![Schéma Technique ETL](https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png)
 
-## 🔄 Processus ETL - Phase par Phase
+---
+
+## 🔄 Processus ETL avec SSIS, SSAS & Power BI
 
 ### 1️⃣ **Extraction (Collecte)**
-**Objectif** : Ingestion fiable des données depuis toutes les sources.
-- **Sources SQL Server** : Données transactionnelles structurées
-- **Fichiers CSV** : Données des partenaires, logs, rapports externes
-- **Domaines couverts** :
+**Objectif** : Ingérer de manière fiable les données depuis SQL Server et les fichiers CSV via des **packages SSIS**.
+- **Connexion SQL Server** : Utilisation de sources OLE DB ou ADO.NET dans un **Data Flow Task**.
+- **Lecture des fichiers CSV** : Utilisation du composant **Flat File Source**.
+- **Domaines de données couverts** :
+- 
 ### 2️⃣ **Transformation (Valorisation)**
-**Objectif** : Transformer les données brutes en informations fiables et exploitables.
+**Objectif** : Nettoyer, valider et enrichir les données dans le flux de données SSIS (**Data Flow**).
 
-| Étape | Processus | Résultat |
-|-------|-----------|----------|
-| **🧹 Nettoyage** | Correction des incohérences, suppression des doublons, gestion des valeurs manquantes | Données standardisées et fiables |
-| **✓ Validation** | Contrôle des règles métier, validation des plages de valeurs, vérification des références | Données conformes aux exigences qualité |
-| **✨ Enrichissement** | Jointure avec des référentiels, calcul de nouveaux indicateurs, géocodage | Données contextualisées et augmentées |
-| **📊 Agrégation** | Calcul de KPI, consolidation temporelle (quotidienne/mensuelle), création de synthèses | Métriques prêtes à l'analyse |
-| **🕰️ Historisation** | Versionnement des données, conservation des états précédents, traçabilité des modifications | Historique complet pour l'analyse temporelle |
+| Étape | Composants SSIS Clés | Description |
+|-------|---------------------|-------------|
+| **🧹 Nettoyage** | `Conditional Split`, `Derived Column`, `Data Conversion` | Standardisation des formats, gestion des valeurs nulles. |
+| **✓ Validation** | `Lookup`, `Row Count`, Redirection des lignes d'erreur | Vérification de l'intégrité référentielle et des règles métier. |
+| **✨ Enrichissement** | `Merge Join`, `Lookup` | Ajout d'informations à partir de tables de référence. |
+| **📊 Agrégation** | `Aggregate`, `Sort` | Pré-calcul d'indicateurs et consolidation. |
+| **🕰️ Historisation** | Logique de flux (UPSERT) | Gestion des inserts et mises à jour pour tracer l'historique. |
 
-### 3️⃣ **Chargement (Modélisation)**
-**Objectif** : Structurer les données pour une analyse optimale dans un modèle en étoile classique.
+### 3️⃣ **Chargement et Modélisation**
+**Objectif** : Charger les données transformées dans l'entrepôt SQL Server, puis les modéliser dans SSAS.
 
-```plaintext
-📦 Entrepôt de Données
-├── 📈 Tables de Fait (Faits)
-│   ├── Fait_Ventes (montant, quantité, marge...)
-│   ├── Fait_Production (volume, qualité, rendement...)
-│   └── Fait_Export (tonnage, valeur, coûts...)
-│
-└── 📐 Tables de Dimension
-  ├── Dim_Temps (date, semaine, mois, trimestre...)
-  ├── Dim_Produit (type, grade, caractéristiques...)
-  ├── Dim_Lieu (plantation, région, pays...)
-  ├── Dim_Client (segment, région, taille...)
-  └── Dim_Fournisseur (catégorie, fiabilité...)
+#### **Chargement (Load) vers SQL Server**
+- **Destination** : Une base SQL Server dédiée fonctionnant comme l'**entrepôt de données**.
+- **Méthode** : Utilisation du composant **OLE DB Destination** dans SSIS. Mise en œuvre possible de chargement **incrémental** pour l'efficacité.
+
+#### **Modélisation avec SQL Server Analysis Services (SSAS)**
+Les données de l'entrepôt sont modélisées dans **SSAS** pour des performances analytiques optimales.
+- **Type de modèle** : Modèle **Tabulaire** (recommandé pour sa simplicité et sa performance avec Power BI).
+- **Structure** : Création d'un **schéma en étoile** avec des **tables de faits** (mesures) et des **tables de dimensions** (descripteurs).
+- **Langage** : Création de mesures avec **DAX** (Data Analysis Expressions), par exemple :
+```DAX
+Revenu Total = SUM(Fait_Ventes[Montant])
+Taux Grade A = DIVIDE([Qte Grade A], [Qte Totale], 0)
