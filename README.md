@@ -67,16 +67,4 @@ Les données de l'entrepôt sont modélisées dans **SSAS** pour des performance
 ```DAX
 Revenu Total = SUM(Fait_Ventes[Montant])
 Taux Grade A = DIVIDE([Qte Grade A], [Qte Totale], 0)
-## Pipeline ETL - Étape de Transformation
-
-### 1. Nettoyage des données brutes
-```sql
-CREATE TABLE produits_clean AS
-SELECT
-    id,
-    TRIM(UPPER(nom)) AS nom,
-    INITCAP(categorie) AS categorie,
-    CASE WHEN prix < 0 THEN NULL ELSE prix END AS prix
-FROM produits_raw;
-```
 
