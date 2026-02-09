@@ -1,4 +1,4 @@
 # CacaoProductionDB
 <div align="center">
-  <img src="https://github.com/atchom/CacaoProductionDB/tree/cde17c0864dc3615b817d1cccddd61cfdb34eba0/asssets/images/CacaoPorduction_Architecture.png" alt="Bannière du projet" width="800" />
+  <img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" alt="Bannière du projet" width="800" />
 </div>
