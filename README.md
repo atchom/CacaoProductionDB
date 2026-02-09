@@ -12,7 +12,7 @@ Ce projet implémente une infrastructure de **collecte, transformation et analys
 ### Flux de Données Global
 L'architecture complète, des sources opérationnelles aux tableaux de bord Power BI.
 
-![Architecture Globale BI](https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png)
+![Architecture Globale BI](https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png){:width="600px"}
 
 | Composant | Rôle dans la Stack Microsoft | Outils & Technologies |
 |-----------|-----------------------------|------------------------|
@@ -24,7 +24,7 @@ L'architecture complète, des sources opérationnelles aux tableaux de bord Powe
 ### Pipeline ETL Détaillé
 Le schéma technique détaillant les étapes de transformation des données.
 
-![Schéma Technique ETL](https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png)
+![Schéma Technique ETL](https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png){:width="600px"}
 
 ---
 
