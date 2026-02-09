@@ -16,7 +16,7 @@ L'architecture complète, des sources opérationnelles aux tableaux de bord Powe
 <!-- Architecture globale -->
 <img src="https://github.com/atchom/CacaoProductionDB/blob/75ea3ac240a84ca59c62fe951d09140c6587bf2c/asssets/images/CacaoPorduction_Architecture.png" 
      alt="Architecture Globale BI" 
-     style="height: 500px; width: 500px;" />
+     style="height: 500px; width: 700px;" />
 
 | Composant | Rôle dans la Stack Microsoft | Outils & Technologies |
 |-----------|-----------------------------|------------------------|
@@ -28,9 +28,10 @@ L'architecture complète, des sources opérationnelles aux tableaux de bord Powe
 ### Pipeline ETL Détaillé
 Le schéma technique détaillant les étapes de transformation des données.
 
-![Schéma Technique ETL](https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png){:width="600px"}
-
----
+<!-- Schéma ETL -->
+<img src="https://github.com/atchom/CacaoProductionDB/blob/3883244fe8d4518b31e78e5a9cd16a84806bad40/asssets/images/Schema%20ETL.png" 
+     alt="Schéma Technique ETL" 
+     style="height: 500px; width: 700px;" />
 
 ## 🔄 Processus ETL avec SSIS, SSAS & Power BI
 
