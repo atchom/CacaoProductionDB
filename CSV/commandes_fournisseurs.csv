@@ -1,0 +1,21 @@
+CommandeID,DateCommande,Fournisseur,Materiel,Quantite,Unite,PrixUnitaire,Devise,Total,ModeLivraison,DateLivraison,Statut
+CMD001,2024-01-15,AgriTech Cam,Sécateurs professionnels,50,unité,4500,FCFA,225000,Transporteur,2024-01-25,Livré
+CMD002,2024-01-20,BioFertilisants,Engrais organique,2000,kg,800,FCFA,1600000,Camion,2024-02-05,Livré
+CMD003,2024-02-01,ProtectAgri,Pulvérisateurs,20,unité,25000,FCFA,500000,Transporteur,2024-02-15,Livré
+CMD004,2024-02-10,SacsPro,Sacs de jute,3000,unité,1200,FCFA,3600000,Camion,2024-02-25,Livré
+CMD005,2024-02-15,LaboEquip,Thermomètres digital,30,unité,15000,FCFA,450000,Courrier,2024-02-28,Livré
+CMD006,2024-02-20,OutilsPro,Cisailles récolte,40,unité,7500,FCFA,300000,Transporteur,2024-03-05,Livré
+CMD007,2024-03-01,AgriTech Cam,Gants protection,100,paire,2500,FCFA,250000,Courrier,2024-03-10,Livré
+CMD008,2024-03-05,BioFertilisants,Fongicide bio,500,litre,4500,FCFA,2250000,Camion,2024-03-20,Livré
+CMD009,2024-03-10,TechMeteo,Station météo,2,unité,750000,FCFA,1500000,Transport spécial,2024-03-30,Livré
+CMD010,2024-03-15,SacsPro,Bâches séchage,15,unité,35000,FCFA,525000,Transporteur,2024-03-25,Livré
+CMD011,2024-03-20,ProtectAgri,Insecticide bio,300,litre,5200,FCFA,1560000,Camion,2024-04-05,En transit
+CMD012,2024-03-25,LaboEquip,pH-mètres,10,unité,85000,FCFA,850000,Courrier,2024-04-10,En transit
+CMD013,2024-04-01,OutilsPro,Brouettes,25,unité,45000,FCFA,1125000,Transporteur,2024-04-15,En transit
+CMD014,2024-04-05,AgriTech Cam,Scies élagage,15,unité,32000,FCFA,480000,Courrier,2024-04-20,Commandé
+CMD015,2024-04-10,BioFertilisants,Mycorhizes,100,kg,12000,FCFA,1200000,Camion,2024-04-25,Commandé
+CMD016,2024-04-12,WaterTech,Système irrigation,5,unité,250000,FCFA,1250000,Transport spécial,2024-04-30,Commandé
+CMD017,2024-04-15,SacsPro,Sacs hermétiques,800,unité,1800,FCFA,1440000,Transporteur,2024-05-05,Commandé
+CMD018,2024-04-18,ProtectAgri,Lunettes protection,60,unité,7500,FCFA,450000,Courrier,2024-05-10,Commandé
+CMD019,2024-04-20,LaboEquip,Balance précision,5,unité,120000,FCFA,600000,Transporteur,2024-05-12,Commandé
+CMD020,2024-04-22,TechMeteo,Data loggers température,8,unité,95000,FCFA,760000,Courrier,2024-05-15,Commandé
