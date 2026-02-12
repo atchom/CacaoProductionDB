@@ -83,17 +83,19 @@ INSERT INTO mouvements_stock (commande_id, produit_code, type_mouvement, quantit
 (NULL, 'BIG-15-01', 'SORTIE', 5, 'Préparation export', 'Fotso Célestin', 'BS-2025-060', 'Stock vrac', 'Zone transit');
 
 --6. TABLE maintenance_equipements – 5 enregistrements
-INSERT INTO maintenance_equipements (equipement_id, type_maintenance, date_maintenance, cout_maintenance, description_travaux, technicien, prochaine_maintenance, statut) VALUES
--- Égreneuse manuelle (inventaire_id = 11)
-(11, 'Préventive', '2025-05-10', 45000, 'Nettoyage et graissage égreneuse', 'Techni-Maintenance SARL', '2025-08-10', 'Effectuée'),
-(11, 'Corrective', '2025-06-15', 12500, 'Remplacement courroie', 'Ets Fokou', '2025-09-15', 'Effectuée'),
+INSERT INTO maintenance_equipements 
+    (equipement_id, type_maintenance, date_maintenance, cout_maintenance, 
+     description_travaux, technicien, prochaine_maintenance, statut)
+VALUES
+    -- Égreneuse manuelle (ID existant = 2 par exemple)
+    (2, 'Préventive',   '2025-05-10', 45000, 'Nettoyage et graissage égreneuse', 'Techni-Maintenance SARL', '2025-08-10', 'Effectuée'),
+    (2, 'Corrective',   '2025-06-15', 12500, 'Remplacement courroie',            'Ets Fokou',               '2025-09-15', 'Effectuée'),
 
--- Séchoir solaire (inventaire_id = 17)
-(17, 'Préventive', '2025-06-20', 30000, 'Vérification bâche séchoir', 'Service interne', '2025-09-20', 'Effectuée'),
+    -- Séchoir solaire (ID existant = 5)
+    (5, 'Préventive',   '2025-06-20', 30000, 'Vérification bâche séchoir',       'Service interne',         '2025-09-20', 'Effectuée'),
 
--- Hygromètre numérique (inventaire_id = 14)
-(14, 'Calibration', '2025-06-18', 0, 'Calibration hygromètre', 'Dr. Abomo', '2025-09-18', 'Effectuée'),
+    -- Hygromètre numérique (ID existant = 7)
+    (7, 'Calibration',  '2025-06-18', 0,     'Calibration hygromètre',           'Dr. Abomo',               '2025-09-18', 'Effectuée'),
 
--- Transpalette électrique (inventaire_id = 20)
-(20, 'Préventive', '2025-07-01', 15000, 'Nettoyage transpalette', 'Mbarga Luc', '2025-10-01', 'Planifiée');
-
+    -- Transpalette électrique (ID existant = 9)
+    (9, 'Préventive',   '2025-07-01', 15000, 'Nettoyage transpalette',           'Mbarga Luc',              '2025-10-01', 'Planifiée');
