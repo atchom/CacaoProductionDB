@@ -25,6 +25,9 @@ CREATE TABLE categories_materiel (
     responsable_maintenance VARCHAR(100),
     taux_amortissement DECIMAL(5,2) -- pour calcul de dépréciation
 );
+-- suppression de la colonne responsable_maintenance
+ALTER TABLE public.categories_materiel 
+DROP COLUMN responsable_maintenance;
 
 -- 3. TABLE: commandes_fournisseurs
 CREATE TABLE commandes_fournisseurs (
