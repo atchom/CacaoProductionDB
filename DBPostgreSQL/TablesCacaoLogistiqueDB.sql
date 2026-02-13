@@ -1,4 +1,5 @@
 -- PostgreSQL Database: CacaoLogistiqueDB
+-- VERSION CORRIGÉE - Suppression des colonnes mal placées
 
 -- 1. TABLE: fournisseurs
 CREATE TABLE fournisseurs (
@@ -16,18 +17,13 @@ CREATE TABLE fournisseurs (
     delai_livraison_moyen INTEGER -- en jours
 );
 
--- 2. TABLE: categories_materiel
+-- 2. TABLE: categories_materiel (CORRIGÉE - sans responsable_maintenance, sans taux_amortissement)
 CREATE TABLE categories_materiel (
     categorie_id SERIAL PRIMARY KEY,
     code_categorie VARCHAR(20) UNIQUE,
     nom_categorie VARCHAR(100) NOT NULL,
-    description TEXT,
-    responsable_maintenance VARCHAR(100),
-    taux_amortissement DECIMAL(5,2) -- pour calcul de dépréciation
+    description TEXT
 );
--- suppression de la colonne responsable_maintenance
-ALTER TABLE public.categories_materiel 
-DROP COLUMN responsable_maintenance;
 
 -- 3. TABLE: commandes_fournisseurs
 CREATE TABLE commandes_fournisseurs (
@@ -55,7 +51,7 @@ CREATE TABLE commandes_fournisseurs (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 4. TABLE: inventaire_logistique
+-- 4. TABLE: inventaire_logistique (AMÉLIORÉE - avec colonnes d'amortissement)
 CREATE TABLE inventaire_logistique (
     inventaire_id SERIAL PRIMARY KEY,
     produit_code VARCHAR(50) UNIQUE,
@@ -69,7 +65,14 @@ CREATE TABLE inventaire_logistique (
     cout_unitaire DECIMAL(12,2),
     valeur_stock DECIMAL(12,2) GENERATED ALWAYS AS (quantite_stock * cout_unitaire) STORED,
     lieu_stockage VARCHAR(100),
-    specifications JSONB, -- Pour caractéristiques techniques
+    specifications JSONB,
+    -- NOUVELLES COLONNES D'AMORTISSEMENT
+    date_acquisition DATE,
+    valeur_achat DECIMAL(12,2),
+    duree_amortissement_ans INTEGER, -- 5, 8, 10 ans
+    methode_amortissement VARCHAR(20) DEFAULT 'Linéaire',
+    valeur_residuelle DECIMAL(12,2) DEFAULT 0,
+    -- FIN NOUVELLES COLONNES
     date_derniere_entree DATE,
     date_derniere_sortie DATE,
     responsable VARCHAR(100),
@@ -91,15 +94,19 @@ CREATE TABLE mouvements_stock (
     lieu_destination VARCHAR(100)
 );
 
--- 6. TABLE: maintenance_equipements
+-- 6. TABLE: maintenance_equipements (AMÉLIORÉE - avec priorité et coût réel)
 CREATE TABLE maintenance_equipements (
     maintenance_id SERIAL PRIMARY KEY,
     equipement_id INTEGER REFERENCES inventaire_logistique(inventaire_id),
-    type_maintenance VARCHAR(30) CHECK (type_maintenance IN ('Préventive', 'Corrective', 'Calibration')),
+    type_maintenance VARCHAR(30) CHECK (type_maintenance IN ('Préventive', 'Corrective', 'Calibration', 'Curative')),
     date_maintenance DATE NOT NULL,
     cout_maintenance DECIMAL(10,2),
     description_travaux TEXT,
-    technicien VARCHAR(100),
+    technicien VARCHAR(100),  -- C'EST ICI QU'EST LE RESPONSABLE !
     prochaine_maintenance DATE,
-    statut VARCHAR(20) DEFAULT 'Planifiée'
+    statut VARCHAR(20) DEFAULT 'Planifiée',
+    -- NOUVELLES COLONNES
+    priorite VARCHAR(10) DEFAULT 'Normale' CHECK (priorite IN ('Basse', 'Normale', 'Haute', 'Urgente')),
+    pieces_remplacees TEXT,
+    duree_intervention_heures DECIMAL(5,2)
 );
