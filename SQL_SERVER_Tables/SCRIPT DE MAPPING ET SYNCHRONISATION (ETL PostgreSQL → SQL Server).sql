@@ -6,31 +6,46 @@
 TRUNCATE TABLE Integration.LogistiqueMapping;
 GO
 
-INSERT INTO Integration.LogistiqueMapping (ProduitCode, ProduitNom, FournisseurID_PG, Categorie, DateIntegration)
+INSERT INTO Integration.LogistiqueMapping (
+    ProduitCode, ProduitNom, FournisseurID_PG, FournisseurNom_PG,
+    Categorie, TypeProduit, Unite, CoutUnitaire_PG,
+    DateDerniereSync, StatutIntegration
+)
 SELECT 
     produit_code,
     produit_nom,
     fournisseur_id,
+    fournisseur_nom,
     categorie,
-    GETDATE()
+    type_produit,
+    unite,
+    cout_unitaire,
+    GETDATE(),
+    'Actif'
 FROM OPENQUERY(POSTGRES_CACAO, '
     SELECT 
-        i.produit_code, 
-        i.produit_nom, 
+        i.produit_code,
+        i.produit_nom,
         i.fournisseur_id,
+        f.nom_fournisseur AS fournisseur_nom,
+        c.nom_categorie AS categorie,
         CASE 
-            WHEN c.code_categorie LIKE ''%INT%'' THEN ''Intrant''
-            WHEN c.code_categorie LIKE ''%AMB%'' THEN ''Emballage''
-            WHEN c.code_categorie LIKE ''%EQP%'' THEN ''Équipement''
-            WHEN c.code_categorie LIKE ''%LAB%'' THEN ''Laboratoire''
-            WHEN c.code_categorie LIKE ''%TRA%'' THEN ''Transport''
+            WHEN c.code_categorie ILIKE ''%INT%'' THEN ''Intrant''
+            WHEN c.code_categorie ILIKE ''%AMB%'' THEN ''Emballage''
+            WHEN c.code_categorie ILIKE ''%EQP%'' THEN ''Équipement''
+            WHEN c.code_categorie ILIKE ''%LAB%'' THEN ''Laboratoire''
+            WHEN c.code_categorie ILIKE ''%TRA%'' THEN ''Transport''
             ELSE ''Divers''
-        END AS categorie
+        END AS type_produit,
+        i.unite,
+        i.cout_unitaire
     FROM inventaire_logistique i
+    LEFT JOIN fournisseurs f ON i.fournisseur_id = f.fournisseur_id
     LEFT JOIN categories_materiel c ON i.categorie_id = c.categorie_id
     WHERE i.statut = ''disponible''
 ');
 GO
+
 
 -- =====================================================
 -- ÉTAPE 2: Import des mouvements de stock (intrants)
@@ -198,3 +213,4 @@ SELECT 'AffectationEquipement', COUNT(*) FROM AffectationEquipement
 UNION ALL
 SELECT 'Integration.LogistiqueMapping', COUNT(*) FROM Integration.LogistiqueMapping;
 GO
+
