@@ -1,3 +1,5 @@
+-- ETL_Postgres_CACAO_to_SQLServer --
+
 -- =====================================================
 -- ÉTAPE 1: Mise à jour de la table de mapping logistique
 -- =====================================================
@@ -11,14 +13,14 @@ SELECT
     fournisseur_id,
     categorie,
     GETDATE()
-FROM OPENQUERY(POSTGRES_LINKED_SERVER, '
+FROM OPENQUERY(POSTGRES_CACAO, '
     SELECT 
         i.produit_code, 
         i.produit_nom, 
         i.fournisseur_id,
         CASE 
             WHEN c.code_categorie LIKE ''%INT%'' THEN ''Intrant''
-            WHEN c.code_categorie LIKE ''%EMB%'' THEN ''Emballage''
+            WHEN c.code_categorie LIKE ''%AMB%'' THEN ''Emballage''
             WHEN c.code_categorie LIKE ''%EQP%'' THEN ''Équipement''
             WHEN c.code_categorie LIKE ''%LAB%'' THEN ''Laboratoire''
             WHEN c.code_categorie LIKE ''%TRA%'' THEN ''Transport''
@@ -44,7 +46,7 @@ SELECT
     unite,
     fournisseur_id
 INTO #TempMouvements
-FROM OPENQUERY(POSTGRES_LINKED_SERVER, '
+FROM OPENQUERY(POSTGRES_CACAO, '
     SELECT 
         m.mouvement_id,
         m.produit_code,
@@ -60,11 +62,21 @@ FROM OPENQUERY(POSTGRES_LINKED_SERVER, '
     AND (m.motif LIKE ''%plantation%'' OR m.motif LIKE ''%distribution%'')
 ');
 
--- Étape 2: Ajouter une colonne pour le village déduit
-ALTER TABLE #TempMouvements ADD Village VARCHAR(100);
+-- =====================================================
+-- ÉTAPE 2: Import des mouvements de stock (intrants)
+IF OBJECT_ID('tempdb..#TempMouvements') IS NOT NULL
+    DROP TABLE #TempMouvements;
 
-UPDATE #TempMouvements 
-SET Village = 
+SELECT 
+    mouvement_id,
+    produit_code,
+    date_mouvement,
+    quantite,
+    lieu_destination,
+    produit_nom,
+    unite,
+    fournisseur_id,
+    -- Calculer Village directement
     CASE 
         WHEN lieu_destination LIKE '%Muyuka%' THEN 'Muyuka'
         WHEN lieu_destination LIKE '%Buea%' THEN 'Buea'
@@ -72,9 +84,26 @@ SET Village =
         WHEN lieu_destination LIKE '%Kumba%' THEN 'Kumba'
         WHEN lieu_destination LIKE '%Limbe%' THEN 'Limbe'
         ELSE 'Muyuka'
-    END;
+    END AS Village
+INTO #TempMouvements
+FROM OPENQUERY(POSTGRES_CACAO, '
+    SELECT 
+        m.mouvement_id,
+        m.produit_code,
+        m.date_mouvement,
+        m.quantite,
+        m.lieu_destination,
+        i.produit_nom,
+        i.unite,
+        i.fournisseur_id
+    FROM mouvements_stock m
+    JOIN inventaire_logistique i ON m.produit_code = i.produit_code
+    WHERE m.type_mouvement = ''SORTIE''
+    AND (m.motif LIKE ''%plantation%'' OR m.motif LIKE ''%distribution%'')
+');
 
--- Étape 3: Insérer dans UtilisationIntrants avec les jointures
+-- PLUS BESOIN d'UPDATE, Village est déjà calculé !
+-- Étape 3: Insérer dans UtilisationIntrants
 INSERT INTO UtilisationIntrants (
     ProduitCode_PG, ProduitNom_PG, FournisseurID_PG,
     PlantationID, AgriculteurID, DateApplication,
@@ -106,14 +135,8 @@ WHERE NOT EXISTS (
 
 -- Étape 4: Nettoyage
 DROP TABLE #TempMouvements;
-
--- Étape 5: Vérifier les insertions
-SELECT COUNT(*) AS NombreInsertions FROM UtilisationIntrants;
 GO
 
--- =====================================================
--- ÉTAPE 3: Import des équipements et affectation
--- =====================================================
 INSERT INTO AffectationEquipement (
     EquipementID_PG, EquipementNom_PG,
     PlantationID, AgriculteurID, DateAffectation,
@@ -126,11 +149,13 @@ SELECT
     a.AgriculteurID,
     DATEADD(day, -ABS(CHECKSUM(NEWID())) % 60, GETDATE()),
     CASE ABS(CHECKSUM(NEWID())) % 4 
-        WHEN 0 THEN 'Neuf' WHEN 1 THEN 'Bon' 
-        WHEN 2 THEN 'Usagé' WHEN 3 THEN 'Bon'
+        WHEN 0 THEN 'Neuf' 
+        WHEN 1 THEN 'Bon' 
+        WHEN 2 THEN 'Usagé' 
+        WHEN 3 THEN 'Bon'
     END,
     i.responsable
-FROM OPENQUERY(POSTGRES_LINKED_SERVER, '
+FROM OPENQUERY(POSTGRES_CACAO, '
     SELECT i.inventaire_id, i.produit_nom, i.responsable
     FROM inventaire_logistique i
     JOIN categories_materiel c ON i.categorie_id = c.categorie_id
@@ -138,13 +163,38 @@ FROM OPENQUERY(POSTGRES_LINKED_SERVER, '
     AND i.quantite_stock > 0
 ') i
 CROSS APPLY (
-    SELECT TOP 1 PlantationID, Village FROM Plantations 
+    SELECT TOP 1 PlantationID, Village 
+    FROM Plantations 
     WHERE Region IN ('Sud-Ouest', 'Centre', 'Sud', 'Littoral')
     ORDER BY NEWID()
 ) p
 CROSS APPLY (
-    SELECT TOP 1 AgriculteurID FROM Agriculteurs 
+    SELECT TOP 1 AgriculteurID 
+    FROM Agriculteurs 
     WHERE Village = p.Village AND Statut = 'Actif'
     ORDER BY NEWID()
 ) a;
+GO
+-- =====================================================
+-- ÉTAPE 4: Journalisation
+-- =====================================================
+INSERT INTO Integration.SynchronisationLog (TableCible, TypeOperation, EnregistrementsImportes, Statut)
+SELECT 'UtilisationIntrants', 'INSERT', COUNT(*), 'SUCCÈS'
+FROM UtilisationIntrants
+WHERE DateCreation >= DATEADD(minute, -5, GETDATE());
+
+INSERT INTO Integration.SynchronisationLog (TableCible, TypeOperation, EnregistrementsImportes, Statut)
+SELECT 'AffectationEquipement', 'INSERT', COUNT(*), 'SUCCÈS'
+FROM AffectationEquipement
+WHERE DateCreation >= DATEADD(minute, -5, GETDATE());
+GO
+
+-- =====================================================
+-- ÉTAPE 5: Vérifications
+-- =====================================================
+SELECT 'UtilisationIntrants' AS TableName, COUNT(*) AS NbLignes FROM UtilisationIntrants
+UNION ALL
+SELECT 'AffectationEquipement', COUNT(*) FROM AffectationEquipement
+UNION ALL
+SELECT 'Integration.LogistiqueMapping', COUNT(*) FROM Integration.LogistiqueMapping;
 GO
