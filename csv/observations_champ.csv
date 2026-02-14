@@ -1,0 +1,16 @@
+ObservationID;DateObservation;PlantationID;Technicien;TypeObservation;Description;ActionRecommandee;NiveauGravite;DateAction;Statut
+OBS001;15/03/2024;PLANT-001;M. Moussa;Maladie;Apparition de taches brunes sur cabosses secteur Est;Traitement fongicide urgent;élevé;16/03/2024;Traité
+OBS002;18/03/2024;PLANT-002;Mme NGO;Ravageur;Présence de mirides sur jeunes cabosses;Pulvérisation insecticide bio;Moyen;19/03/2024;Traité
+OBS003;22/03/2024;PLANT-004;M. TCHINDA;Croissance;Croissance lente des jeunes plants zone Nord;Apport engrais complémentaire;Faible;25/03/2024;Planifié
+OBS004;25/03/2024;PLANT-005;M. NDJOCK;Sécheresse;Feuilles jaunissantes par manque d'eau;Arrosage d'appoint;élevé;26/03/2024;En cours
+OBS005;28/03/2024;PLANT-001;M. FOTSO;Floraison;Bonne floraison anticipée;Surveiller formation cabosses;Faible;NULL;Observé
+OBS006;02/04/2024;PLANT-007;Mme DJEUKAM;Mauvaises herbes;Enherbement important zone Sud;Désherbage manuel;Moyen;05/04/2024;Planifié
+OBS007;05/04/2024;PLANT-008;M. TSAFACK;Récolte;Début récolte satisfaisant;Préparer zone fermentation;Faible;NULL;Observé
+OBS008;08/04/2024;PLANT-003;M. KAMGA;Maladie;Pourriture brune sur 5% des cabosses;Traitement cupravit;élevé;09/04/2024;En cours
+OBS009;12/04/2024;PLANT-009;M. FOKOU;Engrais;Fumure mal répartie zone Ouest;Reprendre épandage;Moyen;15/04/2024;Planifié
+OBS010;15/04/2024;PLANT-010;Mme TEMGOUA;Ombrage;Ombre insuffisante jeunes plants;Planter bananiers provisoires;Moyen;20/04/2024;Planifié
+OBS011;18/04/2024;PLANT-006;M. WANDJI;éagage;Branches basses gÃªnent circulation;éaguer avant récolte;Faible;25/04/2024;Planifié
+OBS012;20/04/2024;PLANT-012;M. DONGMO;Rongeurs;Traces de rongeurs sur cabosses;Pose piÃ¨ges;élevé;21/04/2024;Traité
+OBS013;22/04/2024;PLANT-011;M. KOUAM;Engrais;Engrais lessivé par pluies;Refaire apport fractionné;Moyen;25/04/2024;Planifié
+OBS014;25/04/2024;PLANT-013;Mme MEGNE;Floraison;Floraison abondante;Bon potentiel récolte;Faible;NULL;Observé
+OBS015;28/04/2024;PLANT-014;M. TSALA;Maladie;Taches graisseuses sur feuilles;Analyse laboratoire;élevé;30/04/2024;En cours
